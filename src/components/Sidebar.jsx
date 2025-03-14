@@ -20,6 +20,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { useAuth0 } from "@auth0/auth0-react";
 import Button from "@mui/material/Button";
+import { SidebarData } from "./SidebarData";
 
 
 
@@ -167,8 +168,17 @@ export default function Sidebar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Home', 'Previous Paper', 'Notes', 'Contact Us'].map((text, index) => (
-            <ListItem key={text}  disablePadding sx={{ display: 'block' }}>
+          {SidebarData.map((item, index) => (
+            <ListItem
+              key={index}
+              onClick={() => {
+                window.location.pathname = item.link;
+              }}
+              disablePadding
+              sx={{ display: "block" }}
+              
+            >
+              
               <ListItemButton
                 sx={[
                   {
@@ -177,32 +187,35 @@ export default function Sidebar() {
                   },
                   open
                     ? {
-                        justifyContent: 'initial',
+                        justifyContent: "initial",
                       }
                     : {
-                        justifyContent: 'center',
+                        justifyContent: "center",
                       },
                 ]}
               >
                 <ListItemIcon
+                
                   sx={[
                     {
                       minWidth: 0,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                     },
                     open
                       ? {
                           mr: 3,
                         }
                       : {
-                          mr: 'auto',
+                          mr: "auto",
                         },
                   ]}
+                  
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {item.icon}
+                  
                 </ListItemIcon>
                 <ListItemText
-                  primary={text}
+                  primary={item.title}
                   sx={[
                     open
                       ? {
