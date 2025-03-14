@@ -24,7 +24,7 @@ const Navbar = () => {
         <AppBar
           position="static"
           sx={{
-            backgroundColor: "#1976d2",
+            backgroundColor: "#00274d",
             display: "flex",
             flexDirection: "column",
           }}
@@ -55,7 +55,7 @@ const Navbar = () => {
         </AppBar>
         <Box
           sx={{
-            color: "#1976d2",
+            color: "#00274d",
           }}
         >
           <Typography variant="h5">Welcome to the Dashboard!</Typography>
