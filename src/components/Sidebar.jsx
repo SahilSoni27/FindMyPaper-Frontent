@@ -1,30 +1,3 @@
-<<<<<<< HEAD
-import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import MuiDrawer from '@mui/material/Drawer';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import { useAuth0 } from "@auth0/auth0-react";
-import Button from "@mui/material/Button";
-
-
-
-=======
 import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -43,10 +16,9 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import Button from "@mui/material/Button";
+import { useAuth0 } from "@auth0/auth0-react";
 import { SidebarData } from "./SidebarData";
->>>>>>> 9000a39a0dd0413d6e9d7140ea5013aa8b87399e
 
 const drawerWidth = 240;
 
@@ -76,56 +48,42 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
-})(({ theme }) => ({
+})(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  variants: [
-    {
-      props: ({ open }) => open,
-      style: {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(["width", "margin"], {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-      },
-    },
-  ],
+  ...(open && {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
 }));
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
-})(({ theme }) => ({
+})(({ theme, open }) => ({
   width: drawerWidth,
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
-  variants: [
-    {
-      props: ({ open }) => open,
-      style: {
-        ...openedMixin(theme),
-        "& .MuiDrawer-paper": openedMixin(theme),
-      },
-    },
-    {
-      props: ({ open }) => !open,
-      style: {
-        ...closedMixin(theme),
-        "& .MuiDrawer-paper": closedMixin(theme),
-      },
-    },
-  ],
+  ...(open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme),
+  }),
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
 }));
 
 export default function Sidebar() {
@@ -140,10 +98,7 @@ export default function Sidebar() {
     setOpen(false);
   };
 
-  const { loginWithRedirect, logout, user } = useAuth0();
-
-  const { isAuthenticated } = useAuth0();
-
+  const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -155,34 +110,25 @@ export default function Sidebar() {
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            sx={[
-              {
-                marginRight: 5,
-              },
-              open && { display: "none" },
-            ]}
+            sx={{
+              marginRight: 5,
+              ...(open && { display: "none" }),
+            }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            FindMyPaper 
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+            FindMyPaper
           </Typography>
-          <Box sx={{ display: "flex", gap: 1 }}>
-              <Button
-                color="inherit"
-                onClick={() =>
-                  isAuthenticated ? logout() : loginWithRedirect()
-                }
-              >
-                {isAuthenticated ? "LOG OUT" : "LOG IN"}
-              </Button>
-            </Box>
+          <Button
+            color="inherit"
+            onClick={() => (isAuthenticated ? logout() : loginWithRedirect())}
+          >
+            {isAuthenticated ? "LOG OUT" : "LOG IN"}
+          </Button>
         </Toolbar>
       </AppBar>
-      <Typography variant="h5">Welcome to the Dashboard!</Typography>
-          <Typography variant="h6">
-            User: {isAuthenticated && user.name}
-          </Typography>
+
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -195,79 +141,50 @@ export default function Sidebar() {
         </DrawerHeader>
         <Divider />
         <List>
-<<<<<<< HEAD
-          {['Home', 'Previous Paper', 'Notes', 'Contact Us'].map((text, index) => (
-            <ListItem key={text}  disablePadding sx={{ display: 'block' }}>
-=======
           {SidebarData.map((item, index) => (
             <ListItem
               key={index}
+              disablePadding
+              sx={{ display: "block" }}
               onClick={() => {
                 window.location.pathname = item.link;
               }}
-              disablePadding
-              sx={{ display: "block" }}
-              
             >
-              
->>>>>>> 9000a39a0dd0413d6e9d7140ea5013aa8b87399e
               <ListItemButton
-                sx={[
-                  {
-                    minHeight: 48,
-                    px: 2.5,
-                  },
-                  open
-                    ? {
-                        justifyContent: "initial",
-                      }
-                    : {
-                        justifyContent: "center",
-                      },
-                ]}
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
               >
                 <ListItemIcon
-                
-                  sx={[
-                    {
-                      minWidth: 0,
-                      justifyContent: "center",
-                    },
-                    open
-                      ? {
-                          mr: 3,
-                        }
-                      : {
-                          mr: "auto",
-                        },
-                  ]}
-                  
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
                 >
                   {item.icon}
-                  
                 </ListItemIcon>
                 <ListItemText
                   primary={item.title}
-                  sx={[
-                    open
-                      ? {
-                          opacity: 1,
-                        }
-                      : {
-                          opacity: 0,
-                        },
-                  ]}
+                  sx={{
+                    opacity: open ? 1 : 0,
+                  }}
                 />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
-        <Divider />
-<<<<<<< HEAD
-=======
-        
->>>>>>> 9000a39a0dd0413d6e9d7140ea5013aa8b87399e
       </Drawer>
+
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <DrawerHeader />
+        <Typography variant="h5">Welcome to the Dashboard!</Typography>
+        <Typography variant="h6">
+          User: {isAuthenticated && user?.name}
+        </Typography>
+      </Box>
     </Box>
   );
 }
