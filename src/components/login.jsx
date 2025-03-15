@@ -1,46 +1,79 @@
-// src/components/Login.jsx
-
 import React, { useState } from "react";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {
   Box,
   Button,
-  Container,
-  TextField,
-  Typography,
-  Paper,
+  Avatar,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  Divider,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
+import Logout from "@mui/icons-material/Logout";
 import { useAuth0 } from "@auth0/auth0-react";
+import Profile from "./Profile";
 
 export default function Login() {
-  
-  const { loginWithRedirect } = useAuth0();
-  const { logout } = useAuth0();
+  const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "white",
-        height: "100vh",
-        width: "100vw",
-      }}
-    >
-      <Paper
-        elevation={8}
-        sx={{
-          p: 4,
-          borderRadius: 4,
-          backgroundColor: "white",
-          color: "#fff",
-        }}
-      >
-        <Box component="form" sx={{ mt: 2 }}>
-          <button onClick={() => loginWithRedirect()}>Log In</button>
-          <button onClick={() => logout()}>Log Out</button>
-        </Box>
-      </Paper>
+    <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
+      {!isAuthenticated ? (
+        <Button color="inherit" onClick={loginWithRedirect}>
+          LOG IN
+        </Button>
+      ) : (
+        <>
+          <Tooltip title="Account settings">
+            <IconButton
+              onClick={handleClick}
+              size="small"
+              sx={{ ml: 2 }}
+              aria-controls={open ? "account-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+            >
+              <Avatar src={user?.picture} sx={{ width: 32, height: 32 }}>
+                {user?.name?.charAt(0)}
+              </Avatar>
+            </IconButton>
+          </Tooltip>
+          <Menu
+            anchorEl={anchorEl}
+            id="account-menu"
+            open={open}
+            onClose={handleClose}
+            onClick={handleClose}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          >
+            <MenuItem>
+            <ListItemIcon>
+              <AccountCircleIcon/>
+            </ListItemIcon>
+              <Profile/>
+            </MenuItem>
+            <Divider />
+            <MenuItem onClick={() => logout({ returnTo: window.location.origin })}>
+              <ListItemIcon>
+                <Logout fontSize="small" />
+              </ListItemIcon>
+              Logout
+            </MenuItem>
+          </Menu>
+        </>
+      )}
     </Box>
   );
 }

@@ -16,9 +16,10 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Button from "@mui/material/Button";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
 import { useAuth0 } from "@auth0/auth0-react";
-import { SidebarData } from "./SidebarData";
+import Button from "@mui/material/Button";
 
 const drawerWidth = 240;
 
@@ -53,37 +54,50 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
+})(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
+  variants: [
+    {
+      props: ({ open }) => open,
+      style: {
+        marginLeft: drawerWidth,
+        width: `calc(100% - ${drawerWidth}px)`,
+        transition: theme.transitions.create(["width", "margin"], {
+          easing: theme.transitions.easing.sharp,
+          duration: theme.transitions.duration.enteringScreen,
+        }),
+      },
+    },
+  ],
 }));
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
+})(({ theme }) => ({
   width: drawerWidth,
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
-  ...(open && {
-    ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme),
-  }),
-  ...(!open && {
-    ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme),
-  }),
+  variants: [
+    {
+      props: ({ open }) => open,
+      style: {
+        ...openedMixin(theme),
+        "& .MuiDrawer-paper": openedMixin(theme),
+      },
+    },
+    {
+      props: ({ open }) => !open,
+      style: {
+        ...closedMixin(theme),
+        "& .MuiDrawer-paper": closedMixin(theme),
+      },
+    },
+  ],
 }));
 
 export default function Sidebar() {
@@ -97,8 +111,11 @@ export default function Sidebar() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const navigate = useNavigate();
 
-  const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
+  const { loginWithRedirect, logout, user } = useAuth0();
+
+  const { isAuthenticated } = useAuth0();
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -110,25 +127,30 @@ export default function Sidebar() {
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: "none" }),
-            }}
+            sx={[
+              {
+                marginRight: 5,
+              },
+              open && { display: "none" },
+            ]}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" noWrap component="div">
             FindMyPaper
           </Typography>
-          <Button
-            color="inherit"
-            onClick={() => (isAuthenticated ? logout() : loginWithRedirect())}
-          >
-            {isAuthenticated ? "LOG OUT" : "LOG IN"}
-          </Button>
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <Button
+              color="inherit"
+              onClick={() => (isAuthenticated ? logout() : loginWithRedirect())}
+            >
+              {isAuthenticated ? "LOG OUT" : "LOG IN"}
+            </Button>
+          </Box>
         </Toolbar>
       </AppBar>
-
+      <Typography variant="h5">Welcome to the Dashboard!</Typography>
+      <Typography variant="h6">User: {isAuthenticated && user.name}</Typography>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -141,40 +163,57 @@ export default function Sidebar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {SidebarData.map((item, index) => (
-            <ListItem
-              key={index}
-              disablePadding
-              sx={{ display: "block" }}
-              onClick={() => {
-                window.location.pathname = item.link;
-              }}
-            >
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
+          {["Home", "Previous Paper", "Notes", "Contact Us"].map(
+            (text, index) => (
+              <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                <ListItemButton
+                  sx={[
+                    {
+                      minHeight: 48,
+                      px: 2.5,
+                    },
+                    open
+                      ? {
+                          justifyContent: "initial",
+                        }
+                      : {
+                          justifyContent: "center",
+                        },
+                  ]}
                 >
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={item.title}
-                  sx={{
-                    opacity: open ? 1 : 0,
-                  }}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
+                  <ListItemIcon
+                    sx={[
+                      {
+                        minWidth: 0,
+                        justifyContent: "center",
+                      },
+                      open
+                        ? {
+                            mr: 3,
+                          }
+                        : {
+                            mr: "auto",
+                          },
+                    ]}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={text}
+                    sx={[
+                      open
+                        ? {
+                            opacity: 1,
+                          }
+                        : {
+                            opacity: 0,
+                          },
+                    ]}
+                  />
+                </ListItemButton>
+              </ListItem>
+            )
+          )}
         </List>
       </Drawer>
 
