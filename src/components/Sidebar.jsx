@@ -20,6 +20,7 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { useAuth0 } from "@auth0/auth0-react";
 import Button from "@mui/material/Button";
+import { SidebarData } from "./SidebarData";
 
 const drawerWidth = 240;
 
@@ -49,6 +50,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
@@ -111,7 +113,6 @@ export default function Sidebar() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const navigate = useNavigate();
 
   const { loginWithRedirect, logout, user } = useAuth0();
 
@@ -163,67 +164,65 @@ export default function Sidebar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Home", "Previous Paper", "Notes", "Contact Us"].map(
-            (text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: "block" }}>
-                <ListItemButton
+          {SidebarData.map((item, index) => (
+            <ListItem
+              key={index}
+              onClick={() => {
+                window.location.pathname = item.link;
+              }}
+              disablePadding
+              sx={{ display: "block" }}
+            >
+              <ListItemButton
+                sx={[
+                  {
+                    minHeight: 48,
+                    px: 2.5,
+                  },
+                  open
+                    ? {
+                        justifyContent: "initial",
+                      }
+                    : {
+                        justifyContent: "center",
+                      },
+                ]}
+              >
+                <ListItemIcon
                   sx={[
                     {
-                      minHeight: 48,
-                      px: 2.5,
+                      minWidth: 0,
+                      justifyContent: "center",
                     },
                     open
                       ? {
-                          justifyContent: "initial",
+                          mr: 3,
                         }
                       : {
-                          justifyContent: "center",
+                          mr: "auto",
                         },
                   ]}
                 >
-                  <ListItemIcon
-                    sx={[
-                      {
-                        minWidth: 0,
-                        justifyContent: "center",
-                      },
-                      open
-                        ? {
-                            mr: 3,
-                          }
-                        : {
-                            mr: "auto",
-                          },
-                    ]}
-                  >
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={text}
-                    sx={[
-                      open
-                        ? {
-                            opacity: 1,
-                          }
-                        : {
-                            opacity: 0,
-                          },
-                    ]}
-                  />
-                </ListItemButton>
-              </ListItem>
-            )
-          )}
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.title}
+                  sx={[
+                    open
+                      ? {
+                          opacity: 1,
+                        }
+                      : {
+                          opacity: 0,
+                        },
+                  ]}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
+        <Divider />
       </Drawer>
-
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-        <Typography variant="h5">Welcome to the Dashboard!</Typography>
-        <Typography variant="h6">
-          User: {isAuthenticated && user?.name}
-        </Typography>
-      </Box>
     </Box>
   );
 }
