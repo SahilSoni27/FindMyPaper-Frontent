@@ -118,6 +118,55 @@ export default function Sidebar() {
 
   const { isAuthenticated } = useAuth0();
 
+  React.useEffect(() => {
+    const sendUsernameToBackend = async () => {
+      if (user && user.name) {
+        console.log("Username:", user.sub);
+        try {
+          const response = await fetch("http://localhost:5000/get-profile", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            // body: JSON.stringify({ username: "Dhruv Thakkar" }),
+            body: JSON.stringify({ username: user.name }),
+          });
+
+          const result = await response.json();
+          console.log("Profile from backend:", result);
+        } catch (error) {
+          console.error("Error sending username:", error);
+        }
+      }
+    };
+
+    sendUsernameToBackend();
+  }, [user]);
+
+  // React.useEffect(() => {
+  //   const sendUserIdToBackend = async () => {
+  //     if (user && user.sub) {
+  //       console.log("LinkedIn User ID:", user.sub);
+  //       try {
+  //         const response = await fetch("http://localhost:5000/get-profile", {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           body: JSON.stringify({ linkedin_id: user.sub }),
+  //         });
+
+  //         const result = await response.json();
+  //         console.log("Profile from backend:", result);
+  //       } catch (error) {
+  //         console.error("Error sending LinkedIn ID:", error);
+  //       }
+  //     }
+  //   };
+
+  //   sendUserIdToBackend();
+  // }, [user]);
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
