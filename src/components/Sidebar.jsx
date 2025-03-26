@@ -146,8 +146,8 @@ export default function Sidebar() {
           <Login />
         </Toolbar>
       </AppBar>
-      <Typography variant="h5">Welcome to the Dashboard!</Typography>
-      <Typography variant="h6">User: {isAuthenticated && user.name}</Typography>
+      {/* <Typography variant="h5">Welcome to the Dashboard!</Typography>
+      <Typography variant="h6">User: {isAuthenticated && user.name}</Typography> */}
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
