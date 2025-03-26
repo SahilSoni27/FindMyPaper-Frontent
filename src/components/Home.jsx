@@ -7,18 +7,36 @@ import Sidebar from "./Sidebar";
 const Home = () => {
   return (
     <>
-    <Sidebar/>
-      <Container maxWidth="lg">
+      {/* Sidebar */}
+      <Sidebar />
+
+      {/* Main Container */}
+      <Container
+        maxWidth="lg"
+        sx={{
+          margin: 0,
+          paddingX: { xs: 2, md: 4 },
+          paddingTop: 4,
+          width: "100%",
+        }}
+      >
+        {/* Hero Section */}
         <Box
           display="flex"
           justifyContent="space-between"
           alignItems="center"
           flexWrap="wrap"
-          sx={{ py: 4 }}
+          sx={{
+            py: 4,
+            width: "100%",
+            textAlign: { xs: "center", md: "left" },
+          }}
         >
+          {/* Text Section */}
           <Box
             sx={{
               width: { xs: "100%", md: "65%" },
+              marginBottom: { xs: 3, md: 0 },
               textAlign: { xs: "center", md: "left" },
             }}
           >
@@ -31,21 +49,30 @@ const Home = () => {
               learning experience!
             </Typography>
           </Box>
+
+          {/* Image Section */}
           <Box
             sx={{
               width: { xs: "100%", md: "30%" },
               display: "flex",
               justifyContent: "center",
+              alignItems: "center",
             }}
           >
             <img
               src="/path-to-your-logo.png"
               alt="FindMyPaper Logo"
-              style={{ maxWidth: "100%", height: "auto" }}
+              style={{
+                maxWidth: "100%",
+                height: "auto",
+                borderRadius: "8px",
+              }}
             />
           </Box>
         </Box>
       </Container>
+
+      {/* Features Section */}
       <Box
         sx={{
           display: "grid",
@@ -54,10 +81,10 @@ const Home = () => {
             sm: "1fr 1fr", // Tablet: 2 columns
             md: "repeat(3, 1fr)", // Desktop: 3 columns
           },
-          gap: 3, // Space between cards
+          gap: 4,
           width: "100%",
           maxWidth: "1200px",
-          margin: "0 auto", // Center the grid
+          margin: "0 auto",
           padding: "16px",
         }}
       >
@@ -74,7 +101,9 @@ const Home = () => {
           desc="Tailored academic recommendations coming soon!"
         />
       </Box>
-      <Footer/>
+
+      {/* Footer */}
+      <Footer />
     </>
   );
 };
