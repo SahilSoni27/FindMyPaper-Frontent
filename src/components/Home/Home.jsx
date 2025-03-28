@@ -1,14 +1,13 @@
 import { Box, Container, Typography } from "@mui/material";
 import React from "react";
 import HomePageComponent from "./HomePageComponent";
-import Footer from "./Footer";
-import Sidebar from "./Sidebar";
+import Footer from "../Footer";
 
 const Home = () => {
   return (
     <>
-      {/* Sidebar */}
-      <Sidebar />
+      {/* Sidebar
+      <Sidebar /> */}
 
       {/* Main Container */}
       <Container

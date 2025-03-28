@@ -1,16 +1,14 @@
-import React from 'react'
-import Sidebar from './Sidebar'
-import Footer from './Footer'
-
+import React from "react";
+// import Sidebar from "./Sidebar";
+import Footer from "./Footer";
 
 const Notes = () => {
   return (
     <>
-    <Sidebar/>
-    <Footer/>
+      {/* <Sidebar/> */}
+      <Footer />
     </>
-    
-  )
-}
+  );
+};
 
-export default Notes
+export default Notes;
