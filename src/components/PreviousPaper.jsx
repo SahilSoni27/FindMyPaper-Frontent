@@ -192,6 +192,8 @@ export default function PreviousPaper() {
           
           </Card> */}
       </Box>
+      <UpdateButton/>
+      
       <Footer />
     </>
   );

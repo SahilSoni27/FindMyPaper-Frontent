@@ -5,6 +5,7 @@ import PreviousPaper from "./components/PreviousPaper";
 import Home from "./components/Home/Home";
 import Notes from "./components/Notes";
 import ContactUs from "./components/ContactUs";
+import Linkedin from "./components/Linkedin";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/previouspaper" element={<PreviousPaper />} />
           <Route path="/notes" element={<Notes />} />
           <Route path="/contactus" element={<ContactUs />} />
+          <Route path="/linkedin" element={<Linkedin />} />
         </Routes>
       </BrowserRouter>
     </>
