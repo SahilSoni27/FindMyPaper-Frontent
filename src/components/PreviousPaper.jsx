@@ -6,6 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Footer from "./Footer";
+import UpdateButton from "./UpdateButton";
 
 export default function PreviousPaper() {
   const [age, setAge] = React.useState("");
@@ -17,6 +18,7 @@ export default function PreviousPaper() {
   return (
     <>
       <Sidebar />
+      <UpdateButton/>
       <div className="dropdown">
         <Box
           sx={{
