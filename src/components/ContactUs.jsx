@@ -1,15 +1,14 @@
-import React from 'react'
-import Sidebar from './Sidebar'
-import Footer from './Footer'
+import React from "react";
+// import Sidebar from "./Sidebar";
+import Footer from "./Footer";
 
 const ContactUs = () => {
   return (
     <>
-    <Sidebar/>
-    <Footer/>   
+      {/* <Sidebar/> */}
+      <Footer />
     </>
-    
-  )
-}
+  );
+};
 
-export default ContactUs
+export default ContactUs;
