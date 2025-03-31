@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {
   Box,
@@ -14,6 +14,7 @@ import {
 import Logout from "@mui/icons-material/Logout";
 import { useAuth0 } from "@auth0/auth0-react";
 import Profile from "./Profile";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
@@ -26,6 +27,20 @@ export default function Login() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const navigate = useNavigate();
+
+  // Automatically redirect to LinkedIn page after successful login
+  useEffect(() => {
+    if (isAuthenticated) {
+      const linkedinSubmitted = localStorage.getItem("linkedinSubmitted");
+      if (linkedinSubmitted) {
+        navigate("/"); // If LinkedIn is already submitted, go home
+      } else {
+        navigate("/linkedin"); // Else, go to LinkedIn submission page
+      }
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
