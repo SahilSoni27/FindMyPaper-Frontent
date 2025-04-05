@@ -16,11 +16,9 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { useNavigate } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
-import Button from "@mui/material/Button";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
 import { SidebarData } from "./SidebarData";
-import Login from "./login";
 
 const drawerWidth = 240;
 
@@ -163,11 +161,13 @@ export default function Sidebar() {
             <ListItem
               key={index}
               onClick={() => {
-                navigate(item.link);
+                window.location.pathname = item.link;
               }}
               disablePadding
               sx={{ display: "block" }}
+              
             >
+              
               <ListItemButton
                 sx={[
                   {
@@ -184,6 +184,7 @@ export default function Sidebar() {
                 ]}
               >
                 <ListItemIcon
+                
                   sx={[
                     {
                       minWidth: 0,
@@ -197,8 +198,10 @@ export default function Sidebar() {
                           mr: "auto",
                         },
                   ]}
+                  
                 >
                   {item.icon}
+                  
                 </ListItemIcon>
                 <ListItemText
                   primary={item.title}
@@ -217,6 +220,7 @@ export default function Sidebar() {
           ))}
         </List>
         <Divider />
+        
       </Drawer>
     </Box>
   );
