@@ -4,7 +4,6 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
 import MuiAppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import MuiDrawer from "@mui/material/Drawer";
@@ -18,6 +17,8 @@ import { styled, useTheme } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
+import Login from "../login";
 import { SidebarData } from "./SidebarData";
 
 const drawerWidth = 240;
@@ -112,34 +113,119 @@ export default function Sidebar() {
     setOpen(false);
   };
 
-  const { loginWithRedirect, logout, user } = useAuth0();
-
   const { isAuthenticated } = useAuth0();
+  // useEffect(() => {
+  //   if (user && user.email && user.nickname && user.sub) {
+  //     const linkedinURL = localStorage.getItem("linkedinURL") || "";
+  //     if (!linkedinURL) {
+  //       navigate("/linkedin");
+  //       return;
+  //     }
+  //     api
+  //       .post("/add-user", {
+  //         email: user.email,
+  //         name: user.nickname,
+  //         auth0_id: user.sub,
+  //         linkedin_url: linkedinURL,
+  //       })
+  //       .then((res) => {
+  //         console.log("User added successfully:", res.data);
+  //         navigate("/");
+  //       })
+  //       .catch((err) => {
+  //         console.log("Error adding user:", err);
+  //       });
+  //   }
+  // }, [user]);
 
-  React.useEffect(() => {
-    const sendUsernameToBackend = async () => {
-      if (user && user.name) {
-        console.log("Username:", user.sub);
-        try {
-          const response = await fetch("http://localhost:5000/get-profile", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            // body: JSON.stringify({ username: "Dhruv Thakkar" }),
-            body: JSON.stringify({ username: user.name }),
-          });
+  //   useEffect(() => {
+  //     if (isAuthenticated && user) {
+  //       api
+  //         .get(`/get-user/${user.sub}`)
+  //         .then((res) => {
+  //           if (res.data.linkedin_url) {
+  //             localStorage.setItem("linkedinSubmitted", "true");
+  //           navigate("/");
+  //           console.log("Submitted");
+  //         } else {
+  //           localStorage.removeItem("linkedinSubmitted");
+  //           navigate("/linkedin");
+  //           console.log("Not submitted");
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log("Error fetching user data:", err);
+  //         navigate("/linkedin");
+  //       });
+  //   }
+  // }, [isAuthenticated, user, navigate]);
 
-          const result = await response.json();
-          console.log("Profile from backend:", result);
-        } catch (error) {
-          console.error("Error sending username:", error);
-        }
-      }
-    };
+  // useEffect(() => {
+  //   if (user && user.email && user.nickname && user.sub) {
+  //     const linkedinURL = localStorage.getItem("linkedinURL") || "";
+  //     api
+  //       .post("/add-user", {
+  //         email: user.email,
+  //         name: user.nickname,
+  //         auth0_id: user.sub,
+  //         linkedin_url: linkedinURL,
+  //       })
+  //       .then((res) => {
+  //         console.log("User added successfully:", res.data);
+  //         if (linkedinURL) {
+  //           localStorage.setItem("linkedinSubmitted", "true");
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log("Error adding user:", err);
+  //       });
+  //   }
+  // }, [user]);
 
-    sendUsernameToBackend();
-  }, [user]);
+  // React.useEffect(() => {
+  //   const sendUsernameToBackend = async () => {
+  //     if (user && user.name) {
+  //       console.log("Username:", user.sub);
+  //       console.log(user.name);
+  //       console.log("ffe" + JSON.stringify(user));
+
+  //       try {
+  //         const response = await fetch("http://localhost:5000/get-profile", {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           // body: JSON.stringify({ username: "Dhruv Thakkar" }),
+  //           body: JSON.stringify({ username: user.name }),
+  //         });
+
+  //         const result = await response.json();
+  //         console.log("Profile from backend:", result);
+  //       } catch (error) {
+  //         console.error("Error sending username:", error);
+  //       }
+  //     }
+  //   };
+
+  //   sendUsernameToBackend();
+  // }, [user]);
+
+  // useEffect(() => {
+  //   if (user && user.email && user.nickname && user.sub) {
+  //     api
+  //       .post("/add-user", {
+  //         email: user.email,
+  //         name: user.nickname,
+  //         auth0_id: user.sub,
+  //       })
+  //       .then((res) => {
+  //         console.log(res);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // }, [user]); // Depend on user to re-run when it updates
 
   // React.useEffect(() => {
   //   const sendUserIdToBackend = async () => {
@@ -169,7 +255,7 @@ export default function Sidebar() {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar>
+        <Toolbar sx={{}}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -187,14 +273,8 @@ export default function Sidebar() {
           <Typography variant="h6" noWrap component="div">
             FindMyPaper
           </Typography>
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <Button
-              color="inherit"
-              onClick={() => (isAuthenticated ? logout() : loginWithRedirect())}
-            >
-              {isAuthenticated ? "LOG OUT" : "LOG IN"}
-            </Button>
-          </Box>
+          <Box sx={{ flexGrow: 1 }} />
+          <Login />
         </Toolbar>
       </AppBar>
       {/* <Typography variant="h5">Welcome to the Dashboard!</Typography>
