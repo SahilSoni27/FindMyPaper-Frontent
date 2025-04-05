@@ -1,26 +1,25 @@
-import * as React from "react";
-import { styled, useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import MuiDrawer from "@mui/material/Drawer";
-import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+import { useAuth0 } from "@auth0/auth0-react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import MenuIcon from "@mui/icons-material/Menu";
+import MuiAppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
+import MuiDrawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import { styled, useTheme } from "@mui/material/styles";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
-import Button from "@mui/material/Button";
-import { SidebarData } from "./SidebarData";
 import Login from "../login";
+import { SidebarData } from "./SidebarData";
 
 const drawerWidth = 240;
 
@@ -113,17 +112,150 @@ export default function Sidebar() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const navigate = useNavigate();
-
-  const { loginWithRedirect, logout, user } = useAuth0();
 
   const { isAuthenticated } = useAuth0();
+  // useEffect(() => {
+  //   if (user && user.email && user.nickname && user.sub) {
+  //     const linkedinURL = localStorage.getItem("linkedinURL") || "";
+  //     if (!linkedinURL) {
+  //       navigate("/linkedin");
+  //       return;
+  //     }
+  //     api
+  //       .post("/add-user", {
+  //         email: user.email,
+  //         name: user.nickname,
+  //         auth0_id: user.sub,
+  //         linkedin_url: linkedinURL,
+  //       })
+  //       .then((res) => {
+  //         console.log("User added successfully:", res.data);
+  //         navigate("/");
+  //       })
+  //       .catch((err) => {
+  //         console.log("Error adding user:", err);
+  //       });
+  //   }
+  // }, [user]);
+
+  //   useEffect(() => {
+  //     if (isAuthenticated && user) {
+  //       api
+  //         .get(`/get-user/${user.sub}`)
+  //         .then((res) => {
+  //           if (res.data.linkedin_url) {
+  //             localStorage.setItem("linkedinSubmitted", "true");
+  //           navigate("/");
+  //           console.log("Submitted");
+  //         } else {
+  //           localStorage.removeItem("linkedinSubmitted");
+  //           navigate("/linkedin");
+  //           console.log("Not submitted");
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log("Error fetching user data:", err);
+  //         navigate("/linkedin");
+  //       });
+  //   }
+  // }, [isAuthenticated, user, navigate]);
+
+  // useEffect(() => {
+  //   if (user && user.email && user.nickname && user.sub) {
+  //     const linkedinURL = localStorage.getItem("linkedinURL") || "";
+  //     api
+  //       .post("/add-user", {
+  //         email: user.email,
+  //         name: user.nickname,
+  //         auth0_id: user.sub,
+  //         linkedin_url: linkedinURL,
+  //       })
+  //       .then((res) => {
+  //         console.log("User added successfully:", res.data);
+  //         if (linkedinURL) {
+  //           localStorage.setItem("linkedinSubmitted", "true");
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log("Error adding user:", err);
+  //       });
+  //   }
+  // }, [user]);
+
+  // React.useEffect(() => {
+  //   const sendUsernameToBackend = async () => {
+  //     if (user && user.name) {
+  //       console.log("Username:", user.sub);
+  //       console.log(user.name);
+  //       console.log("ffe" + JSON.stringify(user));
+
+  //       try {
+  //         const response = await fetch("http://localhost:5000/get-profile", {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           // body: JSON.stringify({ username: "Dhruv Thakkar" }),
+  //           body: JSON.stringify({ username: user.name }),
+  //         });
+
+  //         const result = await response.json();
+  //         console.log("Profile from backend:", result);
+  //       } catch (error) {
+  //         console.error("Error sending username:", error);
+  //       }
+  //     }
+  //   };
+
+  //   sendUsernameToBackend();
+  // }, [user]);
+
+  // useEffect(() => {
+  //   if (user && user.email && user.nickname && user.sub) {
+  //     api
+  //       .post("/add-user", {
+  //         email: user.email,
+  //         name: user.nickname,
+  //         auth0_id: user.sub,
+  //       })
+  //       .then((res) => {
+  //         console.log(res);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // }, [user]); // Depend on user to re-run when it updates
+
+  // React.useEffect(() => {
+  //   const sendUserIdToBackend = async () => {
+  //     if (user && user.sub) {
+  //       console.log("LinkedIn User ID:", user.sub);
+  //       try {
+  //         const response = await fetch("http://localhost:5000/get-profile", {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           body: JSON.stringify({ linkedin_id: user.sub }),
+  //         });
+
+  //         const result = await response.json();
+  //         console.log("Profile from backend:", result);
+  //       } catch (error) {
+  //         console.error("Error sending LinkedIn ID:", error);
+  //       }
+  //     }
+  //   };
+
+  //   sendUserIdToBackend();
+  // }, [user]);
 
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar>
+        <Toolbar sx={{}}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -163,7 +295,7 @@ export default function Sidebar() {
             <ListItem
               key={index}
               onClick={() => {
-                navigate(item.link);
+                window.location.pathname = item.link;
               }}
               disablePadding
               sx={{ display: "block" }}

@@ -1,15 +1,15 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
+import Grid2 from "@mui/material/Grid2";
+import * as React from "react";
+import { useEffect, useState } from "react";
+
+import { Card, CardContent, Link, Typography } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import Footer from "./Footer";
 import api from "../utils/api";
-import { Card } from "@mui/material";
-import UpdateButton from "./UpdateButton";
+import Footer from "./Footer";
 
 export default function PreviousPaper() {
   const [college, setCollege] = useState("");
@@ -54,7 +54,7 @@ export default function PreviousPaper() {
       setSemesters([]);
       setSemester("");
     }
-  }, [branch]);
+  }, [branch, college]);
 
   useEffect(() => {
     if (college && branch && semester) {
@@ -67,7 +67,7 @@ export default function PreviousPaper() {
       setYears([]);
       setYear("");
     }
-  }, [semester]);
+  }, [branch, college, semester]);
 
   useEffect(() => {
     if (college && branch && semester && year) {
@@ -80,7 +80,7 @@ export default function PreviousPaper() {
       setExamTypes([]);
       setExamType("");
     }
-  }, [year]);
+  }, [branch, college, semester, year]);
 
   useEffect(() => {
     console.log(college, branch, semester, year, examType);
@@ -99,8 +99,8 @@ export default function PreviousPaper() {
   return (
     <>
       <Box sx={{ flexGrow: 1, my: 3, px: 2 }}>
-        <Grid container spacing={2} justifyContent="center">
-          <Grid item xs={12} sm={6} md={4}>
+        <Grid2 container spacing={2} justifyContent="center">
+          <Grid2 item xs={12} sm={6} md={4}>
             <FormControl sx={{ minWidth: 200, width: "100%" }}>
               <InputLabel>College</InputLabel>
               <Select
@@ -114,9 +114,9 @@ export default function PreviousPaper() {
                 ))}
               </Select>
             </FormControl>
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid2 item xs={12} sm={6} md={4}>
             <FormControl
               sx={{ minWidth: 200, width: "100%" }}
               disabled={!college}
@@ -133,9 +133,9 @@ export default function PreviousPaper() {
                 ))}
               </Select>
             </FormControl>
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid2 item xs={12} sm={6} md={4}>
             <FormControl
               sx={{ minWidth: 200, width: "100%" }}
               disabled={!branch}
@@ -152,9 +152,9 @@ export default function PreviousPaper() {
                 ))}
               </Select>
             </FormControl>
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid2 item xs={12} sm={6} md={4}>
             <FormControl
               sx={{ minWidth: 200, width: "100%" }}
               disabled={!semester}
@@ -168,9 +168,9 @@ export default function PreviousPaper() {
                 ))}
               </Select>
             </FormControl>
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid2 item xs={12} sm={6} md={4}>
             <FormControl sx={{ minWidth: 200, width: "100%" }} disabled={!year}>
               <InputLabel>Exam Type</InputLabel>
               <Select
@@ -184,16 +184,43 @@ export default function PreviousPaper() {
                 ))}
               </Select>
             </FormControl>
-          </Grid>
-        </Grid>
-
-        {/* <Card>
-          {papers.map((paper)=>())}
-          
-          </Card> */}
+          </Grid2>
+        </Grid2>
       </Box>
-      <UpdateButton/>
-      
+      <Grid2 container spacing={2} sx={{ display: "flex", gap: 2 }}>
+        {papers.map((paper) => (
+          <Grid2
+            item
+            size={{
+              lg: 3,
+            }}
+            key={paper.id}
+          >
+            <Card>
+              <CardContent sx={{ textAlign: "center" }}>
+                <Link
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ cursor: "pointer" }}
+                  // variant="subtitle1"
+                  onClick={() => window.open(paper.drive_link)}
+                >
+                  {paper.subject_name}
+                </Link>
+                {/* <Link
+                // variant="body2"
+                // color="text.secondary"
+                // sx={{ cursor: "pointer" }}
+                // onClick={() => window.open(paper.drive_link)}
+                >
+                  {paper.drive_link}
+                </Link> */}
+              </CardContent>
+            </Card>
+          </Grid2>
+        ))}
+      </Grid2>
+
       <Footer />
     </>
   );
