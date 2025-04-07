@@ -2,6 +2,7 @@ import { Box, Container, Typography } from "@mui/material";
 import React from "react";
 import HomePageComponent from "./HomePageComponent";
 import Footer from "../Footer";
+import fmp from './fmp.png';
 
 const Home = () => {
   return (
@@ -59,7 +60,7 @@ const Home = () => {
             }}
           >
             <img
-              src="/path-to-your-logo.png"
+              src={fmp}
               alt="FindMyPaper Logo"
               style={{
                 maxWidth: "100%",

@@ -53,10 +53,35 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
+// const AppBar = styled(MuiAppBar, {
+//   shouldForwardProp: (prop) => prop !== "open",
+// })(({ theme }) => ({
+//   zIndex: theme.zIndex.drawer + 1,
+//   transition: theme.transitions.create(["width", "margin"], {
+//     easing: theme.transitions.easing.sharp,
+//     duration: theme.transitions.duration.leavingScreen,
+//   }),
+//   variants: [
+//     {
+//       props: ({ open }) => open,
+//       style: {
+//         marginLeft: drawerWidth,
+//         width: `calc(100% - ${drawerWidth}px)`,
+//         transition: theme.transitions.create(["width", "margin"], {
+//           easing: theme.transitions.easing.sharp,
+//           duration: theme.transitions.duration.enteringScreen,
+//         }),
+//       },
+//     },
+//   ],
+// }));
+
+
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
+  backgroundColor: "#00274d", // 👈 Add this line
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -67,6 +92,7 @@ const AppBar = styled(MuiAppBar, {
       style: {
         marginLeft: drawerWidth,
         width: `calc(100% - ${drawerWidth}px)`,
+        backgroundColor: "#00274d", // 👈 Also here, for the open variant
         transition: theme.transitions.create(["width", "margin"], {
           easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.enteringScreen,
@@ -114,143 +140,7 @@ export default function Sidebar() {
   };
 
   const { isAuthenticated } = useAuth0();
-  // useEffect(() => {
-  //   if (user && user.email && user.nickname && user.sub) {
-  //     const linkedinURL = localStorage.getItem("linkedinURL") || "";
-  //     if (!linkedinURL) {
-  //       navigate("/linkedin");
-  //       return;
-  //     }
-  //     api
-  //       .post("/add-user", {
-  //         email: user.email,
-  //         name: user.nickname,
-  //         auth0_id: user.sub,
-  //         linkedin_url: linkedinURL,
-  //       })
-  //       .then((res) => {
-  //         console.log("User added successfully:", res.data);
-  //         navigate("/");
-  //       })
-  //       .catch((err) => {
-  //         console.log("Error adding user:", err);
-  //       });
-  //   }
-  // }, [user]);
-
-  //   useEffect(() => {
-  //     if (isAuthenticated && user) {
-  //       api
-  //         .get(`/get-user/${user.sub}`)
-  //         .then((res) => {
-  //           if (res.data.linkedin_url) {
-  //             localStorage.setItem("linkedinSubmitted", "true");
-  //           navigate("/");
-  //           console.log("Submitted");
-  //         } else {
-  //           localStorage.removeItem("linkedinSubmitted");
-  //           navigate("/linkedin");
-  //           console.log("Not submitted");
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log("Error fetching user data:", err);
-  //         navigate("/linkedin");
-  //       });
-  //   }
-  // }, [isAuthenticated, user, navigate]);
-
-  // useEffect(() => {
-  //   if (user && user.email && user.nickname && user.sub) {
-  //     const linkedinURL = localStorage.getItem("linkedinURL") || "";
-  //     api
-  //       .post("/add-user", {
-  //         email: user.email,
-  //         name: user.nickname,
-  //         auth0_id: user.sub,
-  //         linkedin_url: linkedinURL,
-  //       })
-  //       .then((res) => {
-  //         console.log("User added successfully:", res.data);
-  //         if (linkedinURL) {
-  //           localStorage.setItem("linkedinSubmitted", "true");
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log("Error adding user:", err);
-  //       });
-  //   }
-  // }, [user]);
-
-  // React.useEffect(() => {
-  //   const sendUsernameToBackend = async () => {
-  //     if (user && user.name) {
-  //       console.log("Username:", user.sub);
-  //       console.log(user.name);
-  //       console.log("ffe" + JSON.stringify(user));
-
-  //       try {
-  //         const response = await fetch("http://localhost:5000/get-profile", {
-  //           method: "POST",
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //           // body: JSON.stringify({ username: "Dhruv Thakkar" }),
-  //           body: JSON.stringify({ username: user.name }),
-  //         });
-
-  //         const result = await response.json();
-  //         console.log("Profile from backend:", result);
-  //       } catch (error) {
-  //         console.error("Error sending username:", error);
-  //       }
-  //     }
-  //   };
-
-  //   sendUsernameToBackend();
-  // }, [user]);
-
-  // useEffect(() => {
-  //   if (user && user.email && user.nickname && user.sub) {
-  //     api
-  //       .post("/add-user", {
-  //         email: user.email,
-  //         name: user.nickname,
-  //         auth0_id: user.sub,
-  //       })
-  //       .then((res) => {
-  //         console.log(res);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }
-  // }, [user]); // Depend on user to re-run when it updates
-
-  // React.useEffect(() => {
-  //   const sendUserIdToBackend = async () => {
-  //     if (user && user.sub) {
-  //       console.log("LinkedIn User ID:", user.sub);
-  //       try {
-  //         const response = await fetch("http://localhost:5000/get-profile", {
-  //           method: "POST",
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //           body: JSON.stringify({ linkedin_id: user.sub }),
-  //         });
-
-  //         const result = await response.json();
-  //         console.log("Profile from backend:", result);
-  //       } catch (error) {
-  //         console.error("Error sending LinkedIn ID:", error);
-  //       }
-  //     }
-  //   };
-
-  //   sendUserIdToBackend();
-  // }, [user]);
-
+  
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />

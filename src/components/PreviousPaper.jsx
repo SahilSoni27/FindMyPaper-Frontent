@@ -10,6 +10,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import api from "../utils/api";
 import Footer from "./Footer";
+import UpdateButton from "./UpdateButton";
 
 export default function PreviousPaper() {
   const [college, setCollege] = useState("");
@@ -87,7 +88,7 @@ export default function PreviousPaper() {
     if (college && branch && semester && year && examType) {
       api
         .get("/papers-search", {
-          params: { college, branch, semester, year, examType },
+          params: { college, branch, semester, year, exam_type: examType },
         })
         .then((response) => {
           setPapers(response.data);
@@ -187,39 +188,50 @@ export default function PreviousPaper() {
           </Grid2>
         </Grid2>
       </Box>
-      <Grid2 container spacing={2} sx={{ display: "flex", gap: 2 }}>
-        {papers.map((paper) => (
-          <Grid2
-            item
-            size={{
-              lg: 3,
-            }}
-            key={paper.id}
-          >
-            <Card>
-              <CardContent sx={{ textAlign: "center" }}>
-                <Link
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ cursor: "pointer" }}
-                  // variant="subtitle1"
-                  onClick={() => window.open(paper.drive_link)}
+      <Box sx={{ px: { xs: 2, sm: 4, md: 6 }, py: 3 }}>
+        <Grid2 container spacing={3} justifyContent="center">
+          {papers.map((paper) => (
+            <Grid2
+              item
+              key={paper.id}
+              sx={{ width: 250 }} // 👈 Fixed width
+            >
+              <Card
+                onClick={() => window.open(paper.drive_link)}
+                sx={{
+                  height: 150, // 👈 Fixed height
+                  cursor: "pointer",
+                  transition: "transform 0.2s",
+                  "&:hover": {
+                    transform: "scale(1.03)",
+                    boxShadow: 6,
+                  },
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  textAlign: "center",
+                  p: 2,
+                }}
+              >
+                <Typography
+                  variant="subtitle1"
+                  color="text.primary"
+                  sx={{
+                    fontWeight: 600,
+                    wordWrap: "break-word",
+                    whiteSpace: "normal", // 👈 Allow multi-line
+                    overflow: "hidden",
+                  }}
                 >
                   {paper.subject_name}
-                </Link>
-                {/* <Link
-                // variant="body2"
-                // color="text.secondary"
-                // sx={{ cursor: "pointer" }}
-                // onClick={() => window.open(paper.drive_link)}
-                >
-                  {paper.drive_link}
-                </Link> */}
-              </CardContent>
-            </Card>
-          </Grid2>
-        ))}
-      </Grid2>
+                </Typography>
+              </Card>
+            </Grid2>
+          ))}
+        </Grid2>
+      </Box>
+
+      <UpdateButton />
 
       <Footer />
     </>
