@@ -1,14 +1,15 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
+import Grid2 from "@mui/material/Grid2";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Footer from "./Footer";
 import api from "../utils/api";
-import UpdateNotesButton from "./UpdateNotesButton";
+import { Card, CardContent, Link, Typography } from "@mui/material";
+
 
 export default function Notes() {
   const [college, setCollege] = useState("");
@@ -68,8 +69,8 @@ export default function Notes() {
   return (
     <>
       <Box sx={{ flexGrow: 1, my: 3, px: 2 }}>
-        <Grid container spacing={2} justifyContent="center">
-          <Grid item xs={12} sm={6} md={4}>
+        <Grid2 container spacing={2} justifyContent="center">
+          <Grid2 item xs={12} sm={6} md={4}>
             <FormControl sx={{ minWidth: 200, width: "100%" }}>
               <InputLabel>College</InputLabel>
               <Select
@@ -83,9 +84,9 @@ export default function Notes() {
                 ))}
               </Select>
             </FormControl>
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid2 item xs={12} sm={6} md={4}>
             <FormControl
               sx={{ minWidth: 200, width: "100%" }}
               disabled={!college}
@@ -102,9 +103,9 @@ export default function Notes() {
                 ))}
               </Select>
             </FormControl>
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid2 item xs={12} sm={6} md={4}>
             <FormControl
               sx={{ minWidth: 200, width: "100%" }}
               disabled={!branch}
@@ -121,10 +122,51 @@ export default function Notes() {
                 ))}
               </Select>
             </FormControl>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </Box>
-      <UpdateNotesButton/>
+      <Box sx={{ px: { xs: 2, sm: 4, md: 6 }, py: 3 }}>
+        <Grid2 container spacing={3} justifyContent="center">
+          {notes.map((note) => (
+            <Grid2
+              item
+              key={note.id}
+              sx={{ width: 250 }} // 👈 Fixed width
+            >
+              <Card
+                onClick={() => window.open(note.drive_link)}
+                sx={{
+                  height: 150, // 👈 Fixed height
+                  cursor: "pointer",
+                  transition: "transform 0.2s",
+                  "&:hover": {
+                    transform: "scale(1.03)",
+                    boxShadow: 6,
+                  },
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  textAlign: "center",
+                  p: 2,
+                }}
+              >
+                <Typography
+                  variant="subtitle1"
+                  color="text.primary"
+                  sx={{
+                    fontWeight: 600,
+                    wordWrap: "break-word",
+                    whiteSpace: "normal", // 👈 Allow multi-line
+                    overflow: "hidden",
+                  }}
+                >
+                  {note.subject_name}
+                </Typography>
+              </Card>
+            </Grid2>
+          ))}
+        </Grid2>
+      </Box>
 
       <Footer />
     </>

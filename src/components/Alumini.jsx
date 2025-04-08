@@ -5,12 +5,11 @@ import {
   Card,
   CardContent,
   Typography,
-  Grid,
+  Grid2,
   Container,
   Box,
   Divider,
   TextField,
-  Grid2,
 } from "@mui/material";
 
 const Alumini = () => {

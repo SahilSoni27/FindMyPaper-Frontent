@@ -10,7 +10,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import api from "../utils/api";
 import Footer from "./Footer";
-import UpdateButton from "./UpdateButton";
+
 
 export default function PreviousPaper() {
   const [college, setCollege] = useState("");
@@ -231,7 +231,7 @@ export default function PreviousPaper() {
         </Grid2>
       </Box>
 
-      <UpdateButton />
+      
 
       <Footer />
     </>

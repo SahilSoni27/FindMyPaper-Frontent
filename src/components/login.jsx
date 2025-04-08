@@ -79,6 +79,8 @@ export default function Login() {
         .get(`/get-user/${user.sub}`)
         .then((res) => {
           if (res.data) {
+            console.log("User from backend:", res.data);
+
             setUser(res.data);
             setUserLoaded(true);
             console.log("User data loaded:", res.data);
@@ -145,6 +147,8 @@ export default function Login() {
       sendProfileData(localUser.linkedin_url, user.sub);
     }
   }, [isAuthenticated, localUser.linkedin_url, user]);
+
+  console.log("Local User:", localUser);
   return (
     <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
       {!isAuthenticated ? (
@@ -176,12 +180,29 @@ export default function Login() {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
-            <MenuItem>
+            {/* <MenuItem>
               <ListItemIcon>
                 <AccountCircleIcon />
               </ListItemIcon>
               <Profile linkedinURL={localUser.linkedinURL} />
+            </MenuItem> */}
+
+            <MenuItem
+              onClick={() => {
+                console.log(localUser.super_user);
+                if (localUser.super_user) {
+                  navigate("/admin-profile");
+                } else {
+                  navigate("/user-profile");
+                }
+              }}
+            >
+              <ListItemIcon>
+                <AccountCircleIcon />
+              </ListItemIcon>
+              {localUser.super_user ? "Admin Profile" : "Profile"}
             </MenuItem>
+
             <Divider />
             <MenuItem
               onClick={() => logout({ returnTo: window.location.origin })}

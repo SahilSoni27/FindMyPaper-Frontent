@@ -38,8 +38,6 @@
 
 // export default App;
 
-
-
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Sidebar from "./components/sidebar/Sidebar";
@@ -52,12 +50,18 @@ import Linkedin from "./components/Linkedin";
 import { createContext, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Alumini from "./components/Alumini";
+import Profile from "./components/Profile";
+import AdminProfile from "./components/AdminProfile";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export const UserContext = createContext();
 
 function AppContent() {
   const location = useLocation();
   const hideSidebarRoutes = ["/linkedin"];
+
+  
+
 
   return (
     <>
@@ -70,7 +74,9 @@ function AppContent() {
         <Route path="/notes" element={<Notes />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/linkedin" element={<Linkedin />} />
-        <Route path="/alumni-list" element = {<Alumini/>} />
+        <Route path="/alumni-list" element={<ProtectedRoute> <Alumini /></ProtectedRoute>} />
+        <Route path="/user-profile" element={<Profile />} />
+        <Route path="/admin-profile" element={<AdminProfile/>} />
       </Routes>
     </>
   );

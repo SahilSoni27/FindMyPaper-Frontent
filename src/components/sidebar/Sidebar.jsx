@@ -76,7 +76,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 //   ],
 // }));
 
-
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme }) => ({
@@ -140,7 +139,7 @@ export default function Sidebar() {
   };
 
   const { isAuthenticated } = useAuth0();
-  
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -161,7 +160,7 @@ export default function Sidebar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Puzzle
+            KampusKonnect
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Login />

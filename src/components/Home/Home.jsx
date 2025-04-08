@@ -1,22 +1,23 @@
-import { Box, Container, Typography } from "@mui/material";
 import React from "react";
+import { Box, Container, Typography } from "@mui/material";
 import HomePageComponent from "./HomePageComponent";
 import Footer from "../Footer";
-import fmp from './fmp.png';
+import fmp from "./fmp.png";
+
+// MUI Icons
+import ArticleIcon from "@mui/icons-material/Article";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import PeopleIcon from "@mui/icons-material/People";
 
 const Home = () => {
   return (
     <>
-      {/* Sidebar
-      <Sidebar /> */}
-
       {/* Main Container */}
       <Container
         maxWidth="lg"
         sx={{
-          margin: 0,
-          paddingX: { xs: 2, md: 4 },
-          paddingTop: 4,
+          px: { xs: 2, md: 4 },
+          pt: 4,
           width: "100%",
         }}
       >
@@ -28,7 +29,6 @@ const Home = () => {
           flexWrap="wrap"
           sx={{
             py: 4,
-            width: "100%",
             textAlign: { xs: "center", md: "left" },
           }}
         >
@@ -36,17 +36,14 @@ const Home = () => {
           <Box
             sx={{
               width: { xs: "100%", md: "65%" },
-              marginBottom: { xs: 3, md: 0 },
-              textAlign: { xs: "center", md: "left" },
+              mb: { xs: 3, md: 0 },
             }}
           >
             <Typography variant="h3" fontWeight={600} gutterBottom>
-              Find Your Study Materials with Ease
+              Welcome to KampusKonnect 🎓
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Access curated notes, previous year papers, and study guides
-              tailored to your academic needs. Join our platform to elevate your
-              learning experience!
+              Your one-stop platform for past papers, quality notes, and connecting with your academic peers. Empower your study journey with KampusKonnect!
             </Typography>
           </Box>
 
@@ -61,7 +58,7 @@ const Home = () => {
           >
             <img
               src={fmp}
-              alt="FindMyPaper Logo"
+              alt="KampusKonnect Logo"
               style={{
                 maxWidth: "100%",
                 height: "auto",
@@ -74,31 +71,32 @@ const Home = () => {
 
       {/* Features Section */}
       <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: {
-            xs: "1fr", // Mobile: 1 column
-            sm: "1fr 1fr", // Tablet: 2 columns
-            md: "repeat(3, 1fr)", // Desktop: 3 columns
-          },
-          gap: 4,
-          width: "100%",
-          maxWidth: "1200px",
-          margin: "0 auto",
-          padding: "16px",
+        display="grid"
+        gridTemplateColumns={{
+          xs: "1fr",
+          sm: "1fr 1fr",
+          md: "repeat(3, 1fr)",
         }}
+        gap={4}
+        maxWidth="1200px"
+        mx="auto"
+        px={2}
+        py={4}
       >
         <HomePageComponent
-          title="Extensive University Papers"
-          desc="Access a wide collection of past papers from various universities."
+          icon={<ArticleIcon sx={{ fontSize: 40, color: "primary.main" }} />}
+          title="University Papers"
+          desc="Browse and download curated past year papers from top universities."
         />
         <HomePageComponent
-          title="Growing Resource Hub"
-          desc="Currently offering university papers, with plans to add college notes soon."
+          icon={<MenuBookIcon sx={{ fontSize: 40, color: "secondary.main" }} />}
+          title="College Notes"
+          desc="Access detailed and easy-to-understand notes prepared by toppers and professors."
         />
         <HomePageComponent
-          title="Future Personalization"
-          desc="Tailored academic recommendations coming soon!"
+          icon={<PeopleIcon sx={{ fontSize: 40, color: "success.main" }} />}
+          title="Connect & Collaborate"
+          desc="Build your academic network, join study groups, and grow together."
         />
       </Box>
 
