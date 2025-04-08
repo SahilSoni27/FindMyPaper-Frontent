@@ -161,7 +161,7 @@ export default function Sidebar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            FindMyPaper
+            Puzzle
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Login />
