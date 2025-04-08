@@ -51,6 +51,7 @@ import ContactUs from "./components/ContactUs";
 import Linkedin from "./components/Linkedin";
 import { createContext, useState } from "react";
 import { useLocation } from "react-router-dom";
+import Alumini from "./components/Alumini";
 
 export const UserContext = createContext();
 
@@ -69,6 +70,7 @@ function AppContent() {
         <Route path="/notes" element={<Notes />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/linkedin" element={<Linkedin />} />
+        <Route path="/alumni-list" element = {<Alumini/>} />
       </Routes>
     </>
   );

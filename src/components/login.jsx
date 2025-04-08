@@ -1,4 +1,3 @@
-
 import { useAuth0 } from "@auth0/auth0-react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Logout from "@mui/icons-material/Logout";
@@ -18,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
 import api from "../utils/api";
 import Profile from "./Profile";
-
+import { useRef } from "react";
 export default function Login() {
   const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -107,43 +106,45 @@ export default function Login() {
     return () => clearTimeout(timeoutId);
   }, [isAuthenticated, localUser, navigate, userLoaded]);
 
-  async function sendProfileData(url, auth0_id) {
-    try {
-      const response = await fetch("http://localhost:3000/profile", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ url, auth0_id }),
-      });
-
-      const result = await response.json();
-      console.log("Profile saved:", result);
-    } catch (error) {
-      console.error("Error saving profile:", error);
-    }
-  }
-
-  sendProfileData(localUser.linkedin_url, user?.sub);
+  const profileCalled = useRef(false);
 
   useEffect(() => {
-    if (isAuthenticated && user?.email) {
-      console.log("Fetching LinkedIn profile...");
-      console.log("LinkedIn URL:", localUser.linkedin_url);
-      api
-        .post("http://127.0.0.1:5000/api/profile", {
-          url: localUser.linkedin_url,
-          auth0_id: user.sub,
-        })
-        .then((res) => {
-          console.log("LinkedIn Profile Data:", res.data);
-        })
-        .catch((err) => {
-          console.log("Error fetching LinkedIn profile:", err);
-        });
+    console.log("Effect triggered", {
+      isAuthenticated,
+      linkedin_url: localUser.linkedin_url,
+      auth0_id: user?.sub,
+      alreadyCalled: profileCalled.current,
+    });
+
+    if (
+      isAuthenticated &&
+      localUser.linkedin_url &&
+      user?.sub &&
+      !profileCalled.current
+    ) {
+      profileCalled.current = true;
+
+      const sendProfileData = async (url, auth0_id) => {
+        try {
+          const response = await fetch("http://localhost:3000/profile", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ url, auth0_id }),
+          });
+
+          const result = await response.json();
+          console.log("Profile saved:", result);
+        } catch (error) {
+          console.error("Error saving profile:", error);
+        }
+      };
+
+      console.log("Sending LinkedIn profile to backend...");
+      sendProfileData(localUser.linkedin_url, user.sub);
     }
   }, [isAuthenticated, localUser.linkedin_url, user]);
-
   return (
     <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
       {!isAuthenticated ? (

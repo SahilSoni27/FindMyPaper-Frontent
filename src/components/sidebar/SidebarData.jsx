@@ -22,9 +22,9 @@ export const SidebarData = [
     link: "/notes",
   },
   {
-    title: "Network",
+    title: "Alumini",
     icon: <NetworkPingIcon/>,
-    link: "/network",
+    link: "/alumni-list",
   },
   {
     title: "ContactUs",
