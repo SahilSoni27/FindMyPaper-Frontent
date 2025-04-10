@@ -162,10 +162,10 @@ const Alumini = () => {
                         <Typography variant="body2" color="textSecondary">
                           {alum.headline}
                         </Typography>
-                        {alum.user?.linkedin_url && (
+                        {alum.linkedin_id && (
                           <Typography variant="body2">
                             <a
-                              href={alum.user.linkedin_url}
+                              href={alum.linkedin_id}
                               target="_blank"
                               rel="noreferrer"
                             >
