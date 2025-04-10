@@ -12,7 +12,7 @@ import {
   TextField,
 } from "@mui/material";
 import Footer from "./Footer";
-import { MATCH_WORD, WORDS } from "../utils/constats";
+
 
 const Alumini = () => {
   const [alumni, setAlumni] = useState([]);
@@ -62,9 +62,9 @@ const Alumini = () => {
     setSearchTerm(e.target.value.toLowerCase());
   };
 
-  const cuss = WORDS.some((name) => {
-    return searchTerm.includes(atob(name));
-  });
+  // const cuss = WORDS.some((name) => {
+  //   return searchTerm.includes(atob(name));
+  // });
 
   const filteredAlumni = alumni.filter((alum) => {
     const experiences = parseExperience(alum.experience);

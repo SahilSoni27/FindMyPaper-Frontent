@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent, Icon, Typography } from "@mui/material";
 
-const HomePageComponent = ({title , desc}) => {
+const HomePageComponent = ({title , desc, icon}) => {
   return (
     <>
       <Card
@@ -18,6 +18,7 @@ const HomePageComponent = ({title , desc}) => {
       }}
     >
       <CardContent>
+        {icon}
         
         <Typography variant="h6" fontWeight="bold">
           {title}
