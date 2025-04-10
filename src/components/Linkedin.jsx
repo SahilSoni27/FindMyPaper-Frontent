@@ -13,15 +13,24 @@ export default function LinkedIn() {
   const navigate = useNavigate();
 
   const { setUser, user } = useContext(UserContext);
+
   const handleSubmit = () => {
+    const linkedInPattern =
+      /^https?:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9-_]+\/?$/;
+
     if (linkedinURL.trim() === "") {
       alert("Please enter a LinkedIn URL!");
       return;
     }
+
+    if (!linkedInPattern.test(linkedinURL.trim())) {
+      alert("Please enter a valid LinkedIn profile URL!");
+      return;
+    }
+
     setUser({ ...user, linkedinURL });
     navigate("/login");
   };
-
   return (
     <Card sx={{ minWidth: 275, padding: 2 }}>
       <CardContent>

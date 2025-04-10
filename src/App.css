@@ -1,9 +1,8 @@
 #root {
-  min-width: 100%;
+  min-width: calc(100vw - 64px);
   margin-top: 67px;
-  margin-left: 54px;
+  margin-left: 64px;
+  margin-bottom: 30px;
   text-align: left;
   align-items: flex-start;
-  
-  
 }
