@@ -1,142 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-// import {
-//   Box,
-//   Button,
-//   Avatar,
-//   Menu,
-//   MenuItem,
-//   ListItemIcon,
-//   Divider,
-//   IconButton,
-//   Tooltip,
-// } from "@mui/material";
-// import Logout from "@mui/icons-material/Logout";
-// import { useAuth0 } from "@auth0/auth0-react";
-// import Profile from "./Profile";
-// import { useNavigate } from "react-router-dom";
-// import api from "../utils/api";
-
-// export default function Login() {
-//   const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
-//   const [anchorEl, setAnchorEl] = useState(null);
-//   const open = Boolean(anchorEl);
-
-//   const handleClick = (event) => {
-//     setAnchorEl(event.currentTarget);
-//   };
-//   const handleClose = () => {
-//     setAnchorEl(null);
-//   };
-
-//   const navigate = useNavigate();
-
-//   // useEffect(() => {
-//   //   if (isAuthenticated) {
-//   //     const linkedinSubmitted = localStorage.getItem("linkedinSubmitted");
-//   //     if (linkedinSubmitted) {
-//   //       navigate("/");
-//   //     } else {
-//   //       navigate("/linkedin");
-//   //     }
-//   //   }
-//   // }, [isAuthenticated, navigate]);
-
-//   useEffect(() => {
-//     if (isAuthenticated && user) {
-//       api
-//         .get(`/get-user`)
-//         .then((res) => {
-//           console.log("User data:", res.data);
-//           if (res.data.linkedin_url) {
-//             navigate("/");
-//             console.log("Submitted");
-//           } else {
-//             navigate("/linkedin");
-//             console.log("Not submitted");
-//           }
-//         })
-//         .catch((err) => {
-//           console.log("Error fetching user data:", err);
-//           navigate("/linkedin");
-//         });
-//     }
-//   }, [user]);
-
-//   // useEffect(() => {
-//   //   if (user && user.email && user.nickname && user.sub) {
-//   //     const linkedinURL = localStorage.getItem("linkedinURL") || "";
-//   //     api
-//   //       .post("/add-user", {
-//   //         email: user.email,
-//   //         name: user.nickname,
-//   //         auth0_id: user.sub,
-//   //         linkedin_url: linkedinURL,
-//   //       })
-//   //       .then((res) => {
-//   //         console.log("User added successfully:", res.data);
-//   //         if (linkedinURL) {
-//   //           localStorage.setItem("linkedinSubmitted", "true");
-//   //         }
-//   //       })
-//   //       .catch((err) => {
-//   //         console.log("Error adding user:", err);
-//   //       });
-//   //   }
-//   // }, [user]);
-//   return (
-//     <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
-//       {!isAuthenticated ? (
-//         <Button color="inherit" onClick={loginWithRedirect}>
-//           LOG IN
-//         </Button>
-//       ) : (
-//         <>
-//           <Tooltip title="Account settings">
-//             <IconButton
-//               onClick={handleClick}
-//               size="small"
-//               sx={{ ml: 2 }}
-//               aria-controls={open ? "account-menu" : undefined}
-//               aria-haspopup="true"
-//               aria-expanded={open ? "true" : undefined}
-//             >
-//               <Avatar src={user?.picture} sx={{ width: 32, height: 32 }}>
-//                 {user?.name?.charAt(0)}
-//               </Avatar>
-//             </IconButton>
-//           </Tooltip>
-//           <Menu
-//             anchorEl={anchorEl}
-//             id="account-menu"
-//             open={open}
-//             onClose={handleClose}
-//             onClick={handleClose}
-//             transformOrigin={{ horizontal: "right", vertical: "top" }}
-//             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-//           >
-//             <MenuItem>
-//               <ListItemIcon>
-//                 <AccountCircleIcon />
-//               </ListItemIcon>
-//               <Profile />
-//             </MenuItem>
-//             <Divider />
-//             <MenuItem
-//               onClick={() => logout({ returnTo: window.location.origin })}
-//             >
-//               <ListItemIcon>
-//                 <Logout fontSize="small" />
-//               </ListItemIcon>
-//               Logout
-//             </MenuItem>
-//           </Menu>
-//         </>
-//       )}
-//     </Box>
-//   );
-// }
-
 import { useAuth0 } from "@auth0/auth0-react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Logout from "@mui/icons-material/Logout";
@@ -156,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
 import api from "../utils/api";
 import Profile from "./Profile";
-
+import { useRef } from "react";
 export default function Login() {
   const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -218,6 +79,8 @@ export default function Login() {
         .get(`/get-user/${user.sub}`)
         .then((res) => {
           if (res.data) {
+            console.log("User from backend:", res.data);
+
             setUser(res.data);
             setUserLoaded(true);
             console.log("User data loaded:", res.data);
@@ -245,43 +108,47 @@ export default function Login() {
     return () => clearTimeout(timeoutId);
   }, [isAuthenticated, localUser, navigate, userLoaded]);
 
-  async function sendProfileData(url, auth0_id) {
-    try {
-      const response = await fetch("http://localhost:3000/profile", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ url, auth0_id }),
-      });
-
-      const result = await response.json();
-      console.log("Profile saved:", result);
-    } catch (error) {
-      console.error("Error saving profile:", error);
-    }
-  }
-
-  sendProfileData(localUser.linkedin_url, user?.sub);
+  const profileCalled = useRef(false);
 
   useEffect(() => {
-    if (isAuthenticated && user?.email) {
-      console.log("Fetching LinkedIn profile...");
-      console.log("LinkedIn URL:", localUser.linkedin_url);
-      api
-        .post("http://127.0.0.1:5000/api/profile", {
-          url: localUser.linkedin_url,
-          auth0_id: user.sub,
-        })
-        .then((res) => {
-          console.log("LinkedIn Profile Data:", res.data);
-        })
-        .catch((err) => {
-          console.log("Error fetching LinkedIn profile:", err);
-        });
+    console.log("Effect triggered", {
+      isAuthenticated,
+      linkedin_url: localUser.linkedin_url,
+      auth0_id: user?.sub,
+      alreadyCalled: profileCalled.current,
+    });
+
+    if (
+      isAuthenticated &&
+      localUser.linkedin_url &&
+      user?.sub &&
+      !profileCalled.current
+    ) {
+      profileCalled.current = true;
+
+      const sendProfileData = async (url, auth0_id) => {
+        try {
+          const response = await fetch("http://localhost:3000/profile", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ url, auth0_id }),
+          });
+
+          const result = await response.json();
+          console.log("Profile saved:", result);
+        } catch (error) {
+          console.error("Error saving profile:", error);
+        }
+      };
+
+      console.log("Sending LinkedIn profile to backend...");
+      sendProfileData(localUser.linkedin_url, user.sub);
     }
   }, [isAuthenticated, localUser.linkedin_url, user]);
 
+  console.log("Local User:", localUser);
   return (
     <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
       {!isAuthenticated ? (
@@ -313,12 +180,25 @@ export default function Login() {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
-            <MenuItem>
+
+            <MenuItem
+              onClick={() => {
+                console.log("hello");
+                console.log(localUser.super_user);
+                if (localUser.super_user) {
+                  navigate("/admin-profile");
+                } else {
+                  navigate("/user-profile");
+                }
+              }}
+            >
               <ListItemIcon>
                 <AccountCircleIcon />
               </ListItemIcon>
-              <Profile linkedinURL={localUser.linkedinURL} />
+              
+              {localUser.super_user ? "Admin Profile" : "Profile"}
             </MenuItem>
+
             <Divider />
             <MenuItem
               onClick={() => logout({ returnTo: window.location.origin })}

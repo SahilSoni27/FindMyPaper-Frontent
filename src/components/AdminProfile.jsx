@@ -1,9 +1,10 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Typography, Avatar, Container, CircularProgress } from '@mui/material';
+import UpdateButton from './UpdateButton';
+import UpdateNotesButton from './UpdateNotesButton';
 
-
-const Profile = () => {
+const AdminProfile = () => {
   const { user, isLoading } = useAuth0();
 
   if (isLoading) {
@@ -44,9 +45,15 @@ const Profile = () => {
         <Typography variant="subtitle1" color="text.secondary">
           {user.email}
         </Typography>
+
+        {/* Action Buttons */}
+        <Box display="flex" flexDirection="column" gap={2} mt={3} width="100%">
+          <UpdateButton />
+          <UpdateNotesButton />
+        </Box>
       </Box>
     </Container>
   );
 };
 
-export default Profile;
+export default AdminProfile;
