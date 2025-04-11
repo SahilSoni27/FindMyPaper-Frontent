@@ -43,7 +43,9 @@ const Home = () => {
               Welcome to Kampus Konnect 🎓
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Your one-stop platform for past papers, quality notes, and connecting with your academic peers. Empower your study journey with KampusKonnect!
+              Your one-stop platform for past papers, quality notes, and
+              connecting with your academic peers. Empower your study journey
+              with KampusKonnect!
             </Typography>
           </Box>
 

@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import Footer from "./Footer";
 
-
 const Alumini = () => {
   const [alumni, setAlumni] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -84,11 +83,7 @@ const Alumini = () => {
 
     return valuesToSearch
       .filter(Boolean)
-      .some(
-        (val) =>
-          val.toLowerCase().includes(searchTerm) ||
-          (cuss && alum.first_name.toLowerCase() === atob(MATCH_WORD))
-      );
+      .some((val) => val.toLowerCase().includes(searchTerm));
   });
 
   return (
