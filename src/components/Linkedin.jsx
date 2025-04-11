@@ -11,7 +11,6 @@ import { UserContext } from "../App";
 export default function LinkedIn() {
   const [linkedinURL, setLinkedinURL] = useState("");
   const navigate = useNavigate();
-
   const { setUser, user } = useContext(UserContext);
 
   const handleSubmit = () => {
@@ -32,25 +31,44 @@ export default function LinkedIn() {
     navigate("/login");
   };
   return (
-    <Card sx={{ minWidth: 275, padding: 2 }}>
-      <CardContent>
-        <Typography gutterBottom sx={{ color: "text.secondary", fontSize: 14 }}>
-          Enter Your LinkedIn URL
-        </Typography>
-        <TextField
-          fullWidth
-          label="LinkedIn Profile URL"
-          variant="outlined"
-          value={linkedinURL}
-          onChange={(e) => setLinkedinURL(e.target.value)}
-          sx={{ my: 2 }}
-        />
-      </CardContent>
-      <CardActions>
-        <Button size="large" variant="contained" onClick={handleSubmit}>
-          Submit
-        </Button>
-      </CardActions>
-    </Card>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        // minHeight: "100vh",
+        padding: "20px",
+        backgroundColor: "#f5f5f5", // optional for better look
+      }}
+    >
+      <Card
+        sx={{
+          width: "100%",
+          maxWidth: 400,
+          padding: 2,
+          boxShadow: 3,
+          borderRadius: 3,
+        }}
+      >
+        <CardContent>
+          <Typography gutterBottom sx={{ color: "text.secondary", fontSize: 14 }}>
+            Enter Your LinkedIn URL
+          </Typography>
+          <TextField
+            fullWidth
+            label="LinkedIn Profile URL"
+            variant="outlined"
+            value={linkedinURL}
+            onChange={(e) => setLinkedinURL(e.target.value)}
+            sx={{ my: 2 }}
+          />
+        </CardContent>
+        <CardActions>
+          <Button fullWidth size="large" variant="contained" onClick={handleSubmit}>
+            Submit
+          </Button>
+        </CardActions>
+      </Card>
+    </div>
   );
 }
