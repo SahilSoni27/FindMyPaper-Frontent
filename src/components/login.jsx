@@ -180,15 +180,10 @@ export default function Login() {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
-            {/* <MenuItem>
-              <ListItemIcon>
-                <AccountCircleIcon />
-              </ListItemIcon>
-              <Profile linkedinURL={localUser.linkedinURL} />
-            </MenuItem> */}
 
             <MenuItem
               onClick={() => {
+                console.log("hello");
                 console.log(localUser.super_user);
                 if (localUser.super_user) {
                   navigate("/admin-profile");
@@ -200,6 +195,7 @@ export default function Login() {
               <ListItemIcon>
                 <AccountCircleIcon />
               </ListItemIcon>
+              
               {localUser.super_user ? "Admin Profile" : "Profile"}
             </MenuItem>
 
