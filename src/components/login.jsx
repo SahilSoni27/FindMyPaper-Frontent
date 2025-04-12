@@ -128,12 +128,9 @@ export default function Login() {
 
       const sendProfileData = async (url, auth0_id) => {
         try {
-          const response = await fetch("http://localhost:3000/profile", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ url, auth0_id }),
+          const response = await api.post("/profile", {
+            url,
+            auth0_id,
           });
 
           const result = await response.json();
@@ -180,7 +177,6 @@ export default function Login() {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
-
             <MenuItem
               onClick={() => {
                 console.log("hello");
@@ -195,7 +191,7 @@ export default function Login() {
               <ListItemIcon>
                 <AccountCircleIcon />
               </ListItemIcon>
-              
+
               {localUser.super_user ? "Admin Profile" : "Profile"}
             </MenuItem>
 

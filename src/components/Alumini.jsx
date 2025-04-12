@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import {
   Avatar,
   Card,
@@ -12,14 +11,15 @@ import {
   TextField,
 } from "@mui/material";
 import Footer from "./Footer";
+import api from "../utils/api";
 
 const Alumini = () => {
   const [alumni, setAlumni] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/alumni-list")
+    api
+      .get("/alumni-list")
       .then((res) => setAlumni(res.data))
       .catch((err) => console.error(err));
   }, []);
