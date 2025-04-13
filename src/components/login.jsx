@@ -128,7 +128,7 @@ export default function Login() {
 
       const sendProfileData = async (url, auth0_id) => {
         try {
-          const response = await api.post("https://your-render-app.onrender.com/profile", {
+          const response = await api.post("/profile", {
             url,
             auth0_id,
           });
