@@ -1,6 +1,6 @@
 import axios from "axios";  // Import axios to make HTTP requests
 
-const API_URL = "http://localhost:3000";  // Backend API endpoint
+const API_URL = process.env.API_URL;  // Backend API endpoint
 
 export const updatePapers = async () => {
     try {
