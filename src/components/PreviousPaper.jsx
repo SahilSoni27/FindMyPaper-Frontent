@@ -83,19 +83,44 @@ export default function PreviousPaper() {
     }
   }, [branch, college, semester, year]);
 
-  useEffect(() => {
-    console.log(college, branch, semester, year, examType);
-    if (college && branch && semester && year && examType) {
-      api
-        .get("/papers-search", {
-          params: { college, branch, semester, year, exam_type: examType },
-        })
-        .then((response) => {
-          setPapers(response.data);
-          console.log(response.data);
-        });
-    }
-  }, [college, branch, semester, year, examType]);
+  // useEffect(() => {
+  //   console.log(college, branch, semester, year, examType);
+  //   if (college && branch && semester && year && examType) {
+  //     api
+  //       .get("/papers-search", {
+  //         params: { college, branch, semester, year, exam_type: examType },
+  //       })
+  //       .then((response) => {
+  //         setPapers(response.data);
+  //         console.log(response.data);
+  //       });
+  //   }
+  // }, [college, branch, semester, year, examType]);
+useEffect(() => {
+  console.log(college, branch, semester, year, examType);
+  if (college && branch && semester && year && examType) {
+    api
+      .get("/papers-search", {
+        params: { college, branch, semester, year, exam_type: examType },
+      })
+      .then((response) => {
+        const data = response.data;
+        console.log("Paper response:", data);
+
+        // Defensive check to ensure it's an array
+        if (Array.isArray(data)) {
+          setPapers(data);
+        } else {
+          setPapers([]); // or handle this gracefully
+          console.warn("Expected an array but got:", typeof data, data);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching papers:", err);
+        setPapers([]); // fail gracefully
+      });
+  }
+}, [college, branch, semester, year, examType]);
 
   return (
     <>
